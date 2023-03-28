@@ -63,5 +63,5 @@ main {
     visibility: hidden;
 }
 [id*="phone-controls"] {
-    visibility: unset;
+    visibility: visible;
 }
