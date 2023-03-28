@@ -62,7 +62,7 @@ main {
 #phone-controls {
     visibility: hidden;
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: row;
     justify-content: center;
     user-select: none;
 }

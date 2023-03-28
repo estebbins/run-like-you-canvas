@@ -178,6 +178,10 @@ const gameLoop = () => {
     // console.log('speed', player.gravitySpeed)
     // console.log('ACTUAL SPEED', player.speed)
 }
+const touchJump = (e) => {
+    e.preventDefault()
+    jumpEvent(e)
+}
 
 ///////////////////////////////Event Listeners////////////////////////////////
 const activateListeners = () => {
@@ -185,7 +189,7 @@ const activateListeners = () => {
     document.addEventListener('keydown', jumpEvent)
     document.addEventListener('keyup', fallEvent)
     // Jump and fall events for mobile
-    jump.addEventListener('touchstart', jumpEvent)
+    jump.addEventListener('touchstart', touchJump)
     jump.addEventListener('touchend', fallEvent)
     // Keydown event for speed increase & decrease
     document.addEventListener('keydown', (e) => {
@@ -211,8 +215,6 @@ const activateListeners = () => {
     })
 }
 
-
-// ArrowUp, ArrowRight, ArrowLeft, ArrowDown
 
 // Game Interval
 let gameInterval
