@@ -123,7 +123,8 @@ class Obstacle {
 }
 
 const jumpEvent = (e) => {
-    if(['w', 'W', 'ArrowUp'].includes(e.key)) {
+    console.log(e, 'e')
+    if(['w', 'W', 'ArrowUp'].includes(e.key || e.target.id="jump")) {
         player.jumpUp()
     }
 }
@@ -189,7 +190,7 @@ const activateListeners = () => {
     document.addEventListener('keydown', jumpEvent)
     document.addEventListener('keyup', fallEvent)
     // Jump and fall events for mobile
-    jump.addEventListener('touchstart', touchJump)
+    document.addEventListener('touchstart', touchJump)
     jump.addEventListener('touchend', fallEvent)
     // Keydown event for speed increase & decrease
     document.addEventListener('keydown', (e) => {
