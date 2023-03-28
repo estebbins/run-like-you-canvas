@@ -186,7 +186,7 @@ const activateListeners = () => {
     document.addEventListener('keydown', jumpEvent)
     document.addEventListener('keyup', fallEvent)
     // Jump and fall events for mobile
-    document.addEventListener('touchstart', touchJump)
+    document.addEventListener('touchstart', jumpEvent)
     jump.addEventListener('touchend', fallEvent)
     // Keydown event for speed increase & decrease
     document.addEventListener('keydown', (e) => {
