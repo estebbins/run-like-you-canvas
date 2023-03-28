@@ -60,8 +60,8 @@ main {
     grid-area: btm-right;
 }
 #phone-controls {
-    display: hidden;
+    visibility: hidden;
 }
 [id*="phone-controls"] {
-        display: unset;
+    visibility: unset;
 }
