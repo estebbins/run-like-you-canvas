@@ -62,7 +62,7 @@ main {
 #phone-controls {
     visibility: hidden;
 }
-@media only screen and (max-width: 480px) {
+@media screen and (max-width: 812px) {
     #phone-controls {
         visibility: visible;
     }

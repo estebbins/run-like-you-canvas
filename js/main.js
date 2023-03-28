@@ -63,7 +63,7 @@ class Player {
             this.hitBottom()
         }
         this.hitTop = function () {
-            let top = game.height/2
+            let top = game.height/2 + 30
             if (this.y < top) {
                 this.y = top
             }
@@ -128,6 +128,17 @@ const fallEvent = (e) => {
     }
 }
 
+// Detect collistion
+const detectHit = (thing) => {
+    if (player.x < thing.x + thing.width
+        && player.x + player.width > thing.x
+        && player.y < thing.y + thing.height
+        && player.y + player.height > thing.y) {
+            thing.active = false
+            message.textContent = "Hit!!"
+    }
+}
+
 ////////////////////////////Game Instances////////////////////////////////////
 // Player starts in lower left corner, but not against the edges
 const player = new Player(45, game.height - 60, 30, 30, 'hotpink')
@@ -153,6 +164,7 @@ const gameLoop = () => {
     for (let i = 0; i < obstacles.length; i++) {
         obstacles[i].newPosition(player.speed)
         obstacles[i].active ? obstacles[i].render() : null
+        detectHit(obstacles[i])
     }
     player.newPosition()
     player.render()
