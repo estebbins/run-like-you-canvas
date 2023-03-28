@@ -62,8 +62,6 @@ main {
 #phone-controls {
     display: hidden;
 }
-@media only screen and (max-width: 768px) {
-    [id*="phone-controls"] {
+[id*="phone-controls"] {
         display: unset;
-    }
 }
