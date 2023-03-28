@@ -62,6 +62,8 @@ main {
 #phone-controls {
     visibility: hidden;
 }
-[id*="phone-controls"] {
-    visibility: visible;
+@media only screen and (max-width: 480px) {
+    #phone-controls {
+        visibility: visible;
+    }
 }
