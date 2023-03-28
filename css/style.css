@@ -62,14 +62,13 @@ main {
 #phone-controls {
     visibility: hidden;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-right: 1rem;
+    flex-flow: row wrap;
+    justify-content: center;
     user-select: none;
 }
 #up, #down, #jump {
-    width: 100%;
     height: 100%;
+    margin-right: 1rem;
 }
 #up {
     background-color: green;
