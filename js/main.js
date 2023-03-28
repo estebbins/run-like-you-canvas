@@ -124,7 +124,7 @@ class Obstacle {
 
 const jumpEvent = (e) => {
     console.log(e, 'e')
-    if(['w', 'W', 'ArrowUp'].includes(e.key || e.target.id="jump")) {
+    if(['w', 'W', 'ArrowUp'].includes(e.key) || e.target.id === "jump") {
         player.jumpUp()
     }
 }
@@ -178,10 +178,6 @@ const gameLoop = () => {
     // console.log('gravity', player.gravity)
     // console.log('speed', player.gravitySpeed)
     // console.log('ACTUAL SPEED', player.speed)
-}
-const touchJump = (e) => {
-    e.preventDefault()
-    jumpEvent(e)
 }
 
 ///////////////////////////////Event Listeners////////////////////////////////
