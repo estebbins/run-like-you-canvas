@@ -51,26 +51,59 @@ class Player {
         // Gravity/Jumping attributes
         this.speedX = 0
         this.speedY = 0
-        this.gravity = 0.0
+        this.gravity = 0
         this.gravitySpeed = 0
         this.newPosition = function () {
+            this.hitTop()
             this.gravitySpeed += this.gravity
             this.x += this.speedX
             this.y += this.speedY + this.gravitySpeed
             this.hitBottom()
         }
+        this.hitTop = function () {
+            let top = game.height/2
+            if (this.y < top) {
+                this.y = top
+            }
+            if (this.y === top) {
+                document.removeEventListener('keydown', jumpEvent)
+                document.removeEventListener('keyup', fallEvent)
+                this.gravitySpeed = 0 
+                this.fallDown()
+            }
+        }
         this.hitBottom = function () {
-            let bottom = game.height - this.height;
+            let bottom = game.height - this.height - 60;
             if (this.y > bottom) {
                 this.y = bottom
+            }
+            if (this.y === bottom) {
+                this.gravity = 0
+                this.gravitySpeed = 0
+                document.addEventListener('keyup', fallEvent)
+                document.addEventListener('keydown', jumpEvent)
             }
         }
         this.jumpUp = function () {
             this.gravity = -0.2
         }
+        this.fallDown = function () {
+            this.gravity = 0.1
+        }
     }
 }
 
+const jumpEvent = (e) => {
+    if(['w', 'W', 'ArrowUp'].includes(e.key)) {
+        player.jumpUp()
+    }
+}
+
+const fallEvent = (e) => {
+    if(['w', 'W', 'ArrowUp'].includes(e.key)) {
+        player.fallDown()
+    }
+}
 
 ////////////////////////////Game Instances////////////////////////////////////
 // Player starts in lower left corner, but not against the edges
@@ -81,25 +114,29 @@ player.render()
 
 const gameLoop = () => {
     // Each loop, add one to the player's frame
+    ctx.clearRect(0, 0, game.width, game.height)
     player.frame += player.speed
     player.newPosition()
     player.render()
+    console.log('gravity', player.gravity)
+    console.log('speedX', player.speedX)
+    console.log('speedY', player.speedY)
+    console.log('speed', player.gravitySpeed)
 }
 
 ///////////////////////////////Event Listeners////////////////////////////////
-document.addEventListener('keydown', (e) => {
-    console.log('this is they key', e.key)
-    if(['w', 'W', 'ArrowUp'].includes(e.key)) {
-        player.jumpUp()
-    }
-})
+const activateListeners = () => {
+    document.addEventListener('keydown', jumpEvent)
+    document.addEventListener('keyup', fallEvent)
+}
+
 
 // ArrowUp, ArrowRight, ArrowLeft, ArrowDown
 
 // Game Interval
-const gameInterval = setInterval(gameLoop, 60)
+let gameInterval
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     gameInterval
-// })
-startButton.addEventListener('click', () => gameInterval, {once: true})
+startButton.addEventListener('click', () => {
+    gameInterval = setInterval(gameLoop, 60)
+    activateListeners()
+}, {once: true})
