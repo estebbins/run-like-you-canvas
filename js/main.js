@@ -130,7 +130,7 @@ const jumpEvent = (e) => {
 }
 
 const fallEvent = (e) => {
-    if(['w', 'W', 'ArrowUp'].includes(e.key)) {
+    if(['w', 'W', 'ArrowUp'].includes(e.key) || e.target.id === "jump") {
         player.fallDown()
     }
 }
