@@ -18,7 +18,9 @@ const game = document.getElementById('canvas')
 const message = document.getElementById('message')
 const score = document.getElementById('score')
 const startButton = document.getElementById('start')
-
+const upButton = document.getElementById('up')
+const downButton = document.getElementById('down')
+const jumpButton = document.getElementById('jump')
 // Set game context to 2d
 const ctx = game.getContext('2d')
 
@@ -63,13 +65,15 @@ class Player {
             this.hitBottom()
         }
         this.hitTop = function () {
-            let top = game.height/2 + 30
+            let top = game.height/2 - 30
             if (this.y < top) {
                 this.y = top
             }
             if (this.y === top) {
                 document.removeEventListener('keydown', jumpEvent)
                 document.removeEventListener('keyup', fallEvent)
+                jump.removeEventListener('touchstart', jumpEvent)
+                jump.removeEventListener('touchend', fallEvent)
                 this.gravitySpeed = 0
                 this.fallDown()
             }
@@ -84,6 +88,8 @@ class Player {
                 this.gravitySpeed = 0
                 document.addEventListener('keyup', fallEvent)
                 document.addEventListener('keydown', jumpEvent)
+                jump.addEventListener('touchstart', jumpEvent)
+                jump.addEventListener('touchend', fallEvent)
             }
         }
         this.jumpUp = function () {
@@ -153,7 +159,7 @@ const gameLoop = () => {
     player.frame += player.speed
     // Count each interval, and about every 20 intervals or so, spawn a new obstacle
     intervalCount += 1
-    console.log('interval', intervalCount)
+
     if (intervalCount % 40 === 0 || intervalCount === 1) {
         // Max Height and width is 50px and min is 10px
         obstacleHeight = Math.floor(Math.random()*(50 - 10 + 1) + 10)
@@ -168,27 +174,40 @@ const gameLoop = () => {
     }
     player.newPosition()
     player.render()
-    console.log('gravity', player.gravity)
-    console.log('speed', player.gravitySpeed)
-    console.log('ACTUAL SPEED', player.speed)
+    // console.log('gravity', player.gravity)
+    // console.log('speed', player.gravitySpeed)
+    // console.log('ACTUAL SPEED', player.speed)
 }
 
 ///////////////////////////////Event Listeners////////////////////////////////
 const activateListeners = () => {
+    // Jump and fall events for keyboard
     document.addEventListener('keydown', jumpEvent)
     document.addEventListener('keyup', fallEvent)
+    // Jump and fall events for mobile
+    jump.addEventListener('touchstart', jumpEvent)
+    jump.addEventListener('touchend', fallEvent)
+    // Keydown event for speed increase & decrease
     document.addEventListener('keydown', (e) => {
         // don't allow speed to increase upon hold
         if (e.repeat) { return }
         else {
             if (['a', 'A', 'ArrowLeft'].includes(e.key) & player.speed > 1) {
+                // Reduce Speed
                 player.speed -= 1
             }
             if (['d', 'D', 'ArrowRight'].includes(e.key) & player.speed < 3) {
-                e.repeat = false
+                // Increase Speed
                 player.speed += 1
             }
         }
+    })
+    // Touch event for speed increase & decrease
+    up.addEventListener('touch', () => {
+        player.speed += 1
+    })
+    down.addEventListener('touch', () => {
+        player.speed -= 1
     })
 }
 
