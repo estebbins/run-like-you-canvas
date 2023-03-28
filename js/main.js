@@ -29,6 +29,10 @@ game.setAttribute('height', getComputedStyle(game)['height'])
 // Set minimum game height
 game.height = 400
 
+// Initialize interval count and obstacle array
+let intervalCount = 0 
+const obstacles = []
+
 //////////////////////////Component Classes////////////////////////////////////
 
 // Create a player class to manage the speed and render the square
@@ -49,15 +53,13 @@ class Player {
             ctx.fillRect(this.x, this.y, this.width, this.height)
         }
         // Gravity/Jumping attributes
-        this.speedX = 0
-        this.speedY = 0
+        // https://www.w3schools.com/graphics/tryit.asp?filename=trygame_gravity_game
         this.gravity = 0
         this.gravitySpeed = 0
         this.newPosition = function () {
             this.hitTop()
             this.gravitySpeed += this.gravity
-            this.x += this.speedX
-            this.y += this.speedY + this.gravitySpeed
+            this.y += this.gravitySpeed
             this.hitBottom()
         }
         this.hitTop = function () {
@@ -68,12 +70,12 @@ class Player {
             if (this.y === top) {
                 document.removeEventListener('keydown', jumpEvent)
                 document.removeEventListener('keyup', fallEvent)
-                this.gravitySpeed = 0 
+                this.gravitySpeed = 0
                 this.fallDown()
             }
         }
         this.hitBottom = function () {
-            let bottom = game.height - this.height - 60;
+            let bottom = game.height - 60;
             if (this.y > bottom) {
                 this.y = bottom
             }
@@ -89,6 +91,27 @@ class Player {
         }
         this.fallDown = function () {
             this.gravity = 0.1
+        }
+    }
+}
+
+class Obstacle {
+    constructor (x, y, width, height, color) {
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+        this.color = color
+        this.active = true
+        this.render = function () {
+            ctx.fillStyle = this.color
+            ctx.fillRect(this.x, this.y, this.width, this.height)
+        }
+        this.newPosition = function (speed) {
+            this.x -= speed
+            if (this.x <= -30){
+                this.active = false
+            }
         }
     }
 }
@@ -113,21 +136,48 @@ player.render()
 ////////////////////////////////Game Loop/////////////////////////////////////
 
 const gameLoop = () => {
-    // Each loop, add one to the player's frame
+    // Clear the game area
     ctx.clearRect(0, 0, game.width, game.height)
+    // Each loop, add to the player's frames based on their speed
     player.frame += player.speed
+    // Count each interval, and about every 20 intervals or so, spawn a new obstacle
+    intervalCount += 1
+    console.log('interval', intervalCount)
+    if (intervalCount % 40 === 0 || intervalCount === 1) {
+        // Max Height and width is 50px and min is 10px
+        obstacleHeight = Math.floor(Math.random()*(50 - 10 + 1) + 10)
+        obstacleWidth = Math.floor(Math.random()*(50 - 10 + 1) + 10)
+        obstacleY = Math.floor(Math.random()*((game.height - 60) - (game.height/2) + 1)) + (game.height/2)
+        obstacles.push(new Obstacle(game.width, obstacleY, obstacleWidth, obstacleHeight, 'red'))
+    }
+    for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].newPosition(player.speed)
+        obstacles[i].active ? obstacles[i].render() : null
+    }
     player.newPosition()
     player.render()
     console.log('gravity', player.gravity)
-    console.log('speedX', player.speedX)
-    console.log('speedY', player.speedY)
     console.log('speed', player.gravitySpeed)
+    console.log('ACTUAL SPEED', player.speed)
 }
 
 ///////////////////////////////Event Listeners////////////////////////////////
 const activateListeners = () => {
     document.addEventListener('keydown', jumpEvent)
     document.addEventListener('keyup', fallEvent)
+    document.addEventListener('keydown', (e) => {
+        // don't allow speed to increase upon hold
+        if (e.repeat) { return }
+        else {
+            if (['a', 'A', 'ArrowLeft'].includes(e.key) & player.speed > 1) {
+                player.speed -= 1
+            }
+            if (['d', 'D', 'ArrowRight'].includes(e.key) & player.speed < 3) {
+                e.repeat = false
+                player.speed += 1
+            }
+        }
+    })
 }
 
 
@@ -137,6 +187,6 @@ const activateListeners = () => {
 let gameInterval
 
 startButton.addEventListener('click', () => {
-    gameInterval = setInterval(gameLoop, 60)
+    gameInterval = setInterval(gameLoop, 50)
     activateListeners()
 }, {once: true})
