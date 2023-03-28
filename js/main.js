@@ -72,8 +72,8 @@ class Player {
             if (this.y === top) {
                 document.removeEventListener('keydown', jumpEvent)
                 document.removeEventListener('keyup', fallEvent)
-                jump.removeEventListener('touchstart', jumpEvent)
-                jump.removeEventListener('touchend', fallEvent)
+                jump.removeEventListener('mousedown', jumpEvent)
+                jump.removeEventListener('mouseup', fallEvent)
                 this.gravitySpeed = 0
                 this.fallDown()
             }
@@ -88,8 +88,8 @@ class Player {
                 this.gravitySpeed = 0
                 document.addEventListener('keyup', fallEvent)
                 document.addEventListener('keydown', jumpEvent)
-                jump.addEventListener('touchstart', jumpEvent)
-                jump.addEventListener('touchend', fallEvent)
+                jump.addEventListener('mousedown', jumpEvent)
+                jump.addEventListener('mouseup', fallEvent)
             }
         }
         this.jumpUp = function () {
@@ -185,8 +185,8 @@ const activateListeners = () => {
     document.addEventListener('keydown', jumpEvent)
     document.addEventListener('keyup', fallEvent)
     // Jump and fall events for mobile
-    jump.addEventListener('touchstart', jumpEvent)
-    jump.addEventListener('touchend', fallEvent)
+    jump.addEventListener('mousedown', jumpEvent)
+    jump.addEventListener('mouseup', fallEvent)
     // Keydown event for speed increase & decrease
     document.addEventListener('keydown', (e) => {
         // don't allow speed to increase upon hold
