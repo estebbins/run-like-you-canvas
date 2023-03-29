@@ -9,7 +9,7 @@
 // After the 3rd life is lost, the next one, the game ends
 // The score will be based off of the distance the player "ran" and the speed at which they ran the course (higher score if same distance but achieved faster)
 
-//! Look into built-in gravity 
+//! This branch is the initial version of the game as preferred by Noah
 
 
 //////////////////////////////////Set Up///////////////////////////////////////

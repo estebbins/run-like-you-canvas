@@ -12,3 +12,5 @@ Version 1 will have 3 speeds (slow, medium(start speed), fast)
 The player will have 3 lives. The player will lose a life each time they hit an obstacle
 After the 3rd life is lost, the next one, the game ends
 The score will be based off of the distance the player "ran" and the speed at which they ran the course (higher score if same distance but achieved faster)
+
+
