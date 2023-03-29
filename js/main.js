@@ -72,8 +72,8 @@ class Player {
             if (this.y === top) {
                 document.removeEventListener('keydown', jumpEvent)
                 document.removeEventListener('keyup', fallEvent)
-                jump.removeEventListener('touchstart', jumpEvent)
-                jump.removeEventListener('touchend', fallEvent)
+                document.removeEventListener('touchstart', jumpEvent)
+                document.removeEventListener('touchend', fallEvent)
                 this.gravitySpeed = 0
                 this.fallDown()
             }
@@ -88,8 +88,8 @@ class Player {
                 this.gravitySpeed = 0
                 document.addEventListener('keyup', fallEvent)
                 document.addEventListener('keydown', jumpEvent)
-                jump.addEventListener('touchstart', jumpEvent)
-                jump.addEventListener('touchend', fallEvent)
+                document.addEventListener('touchstart', jumpEvent)
+                document.addEventListener('touchend', fallEvent)
             }
         }
         this.jumpUp = function () {
