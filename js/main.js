@@ -204,11 +204,9 @@ const activateListeners = () => {
         }
     })
     // Touch event for speed increase & decrease
-    up.addEventListener('touch', () => {
-        player.speed += 1
-    })
-    down.addEventListener('touch', () => {
-        player.speed -= 1
+    document.addEventListener('touch', (e) => {
+        if (e.target.id === 'up' && player.speed < 3) {player.speed += 1}
+        if (e.target.id === 'down' && player.speed > 1) {player.speed -= 1}
     })
 }
 
