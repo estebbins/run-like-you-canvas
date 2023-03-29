@@ -79,13 +79,15 @@ main {
 #jump {
     background-color: red;
 }
+
+/* Touch action guidance: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices */
+/* Text highlight guidance: https://stackoverflow.com/questions/25704650/disable-blue-highlight-when-touch-press-object-with-cursorpointer */
+/* Touch Screen Device settings */
 @media screen and (max-width: 812px) {
     #phone-controls {
         visibility: visible;
     }
 }
-/* Touch action guidance: https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices */
-/* Text highlight guidance: https://stackoverflow.com/questions/25704650/disable-blue-highlight-when-touch-press-object-with-cursorpointer */
 * {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
